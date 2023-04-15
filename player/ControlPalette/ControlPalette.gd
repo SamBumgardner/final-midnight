@@ -25,25 +25,45 @@ var disabled_actions = []
 func _ready():
 	pass
 
-func _on_action_complete():
+func _on_new_round():
 	previous_action = current_action
 	current_action = Actions.NONE
+	if previous_action != Actions.NONE:
+		action_sprites[previous_action].deactivate()
+	
+	var previously_disabled_actions = []
+	previously_disabled_actions.append_array(disabled_actions)
+	disabled_actions = determine_disabled_actions()
+	
+	for action in previously_disabled_actions:
+		if action not in disabled_actions:
+			action_sprites[action].enable()
+	for action in disabled_actions:
+		action_sprites[action].disable()
 
-func _get_first_valid_input(input_retrieval_method):
+func determine_disabled_actions():
+	var actions_to_disable = []
+	if previous_action != Actions.NONE:
+		actions_to_disable.append(previous_action)
+	
+	return actions_to_disable
+
+func _get_all_valid_inputs(input_retrieval_method):
+	var valid_inputs = []
 	for input in input_mapping:
 		if input_mapping[input] not in disabled_actions and input_retrieval_method.call(input):
-			return input_mapping[input]
-	return Actions.NONE
+			valid_inputs.append(input_mapping[input])
+	return valid_inputs
 
-func _check_action_changed():
-	var pressed_action = Actions.NONE 
-	pressed_action = _get_first_valid_input(Input.is_action_just_pressed)
+func _update_pressed_actions_stack():
+	var just_pressed_actions = _get_all_valid_inputs(Input.is_action_just_pressed)
+	pressed_actions_stack.append_array(just_pressed_actions)
 	
-	if pressed_action == Actions.NONE:
-		if _get_first_valid_input(Input.is_action_just_released) != Actions.NONE:
-			pressed_action = _get_first_valid_input(Input.is_action_pressed)
+	var just_released_actions = _get_all_valid_inputs(Input.is_action_just_released)
+	for action in just_released_actions:
+		pressed_actions_stack.remove_at(pressed_actions_stack.find(action))
 	
-	return pressed_action
+	return pressed_actions_stack
 
 func _action_selected(action):
 	if action != Actions.NONE and action != current_action:
@@ -53,5 +73,6 @@ func _action_selected(action):
 		action_sprites[current_action].activate()
 
 func _process(delta):
-	var new_action = _check_action_changed()
-	_action_selected(new_action)
+	_update_pressed_actions_stack()
+	if !pressed_actions_stack.is_empty():
+		_action_selected(pressed_actions_stack.back())
