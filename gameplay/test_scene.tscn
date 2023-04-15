@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://pisy0gdtckj2"]
+
+[ext_resource type="PackedScene" uid="uid://dkh85xxdd1ipo" path="res://player/ControlPalette/control_palette.tscn" id="1_ts6s5"]
+
+[node name="test_scene" type="Node2D"]
+
+[node name="ControlPalette" parent="." instance=ExtResource("1_ts6s5")]
+position = Vector2(569, 330)
