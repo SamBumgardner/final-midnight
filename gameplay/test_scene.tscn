@@ -1,10 +1,15 @@
 [gd_scene load_steps=3 format=3 uid="uid://c882gi2vo050k"]
 
 [ext_resource type="Script" path="res://gameplay/test_scene.gd" id="1_q6wjb"]
-[ext_resource type="PackedScene" uid="uid://dkh85xxdd1ipo" path="res://player/ControlPalette/ControlPalette.tscn" id="1_ts6s5"]
+[ext_resource type="PackedScene" uid="uid://bomodjcon6ive" path="res://player/Player.tscn" id="2_qrmxx"]
 
 [node name="test_scene" type="Node2D"]
 script = ExtResource("1_q6wjb")
 
-[node name="ControlPalette" parent="." instance=ExtResource("1_ts6s5")]
-position = Vector2(569, 330)
+[node name="Player1" parent="." instance=ExtResource("2_qrmxx")]
+position = Vector2(200, 275)
+
+[node name="Player2" parent="." instance=ExtResource("2_qrmxx")]
+position = Vector2(600, 275)
+scale = Vector2(-1, 1)
+player_number = 1
