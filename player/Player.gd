@@ -30,6 +30,18 @@ func _on_resolve_round_actions(active_player_ids, players, player_actions, moon_
 			opponent = players[active_player_id]
 			opponent_action = player_actions[active_player_id]
 	
+	match my_action:
+		GlobalConstants.Actions.CHARGE:
+			if opponent_action != GlobalConstants.Actions.DAZE:
+				$PlayerSprite/AnimationPlayer.play("charge")
+				_gain_charge(moon_phase)
+		GlobalConstants.Actions.ATTACK:
+			$PlayerSprite/AnimationPlayer.play("attack")
+		GlobalConstants.Actions.DAZE:
+			$PlayerSprite/AnimationPlayer.play("daze")
+		GlobalConstants.Actions.BLOCK:
+			$PlayerSprite/AnimationPlayer.play("block")
+			
 	match opponent_action:
 		GlobalConstants.Actions.ATTACK:
 			if my_action == GlobalConstants.Actions.BLOCK:
@@ -46,21 +58,12 @@ func _on_resolve_round_actions(active_player_ids, players, player_actions, moon_
 				_lose_charge()
 				_hurt(1)
 				# become dazed
-	
-	match my_action:
-		GlobalConstants.Actions.CHARGE:
-			if opponent_action != GlobalConstants.Actions.DAZE:
-				$PlayerSprite/AnimationPlayer.play("charge")
-				_gain_charge(moon_phase)
-		GlobalConstants.Actions.ATTACK:
-			$PlayerSprite/AnimationPlayer.play("attack")
-		GlobalConstants.Actions.DAZE:
-			$PlayerSprite/AnimationPlayer.play("daze")
-		GlobalConstants.Actions.BLOCK:
-			$PlayerSprite/AnimationPlayer.play("block")
 
 func _hurt(damage):
 	health -= damage
+	if health <= 0:
+		emit_signal("charge_changed", 0, player_number)
+		$PlayerSprite/AnimationPlayer.queue("defeat")
 	
 func _lose_charge():
 	charge = min_charge

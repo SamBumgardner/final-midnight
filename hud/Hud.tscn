@@ -1,0 +1,249 @@
+[gd_scene load_steps=9 format=3 uid="uid://by506lrsgi7qw"]
+
+[ext_resource type="Texture2D" uid="uid://bv754pd1x1m6a" path="res://assets/moon_phases.png" id="1_7dq4i"]
+[ext_resource type="Script" path="res://hud/Hud.gd" id="1_d0cnq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w6uk2"]
+bg_color = Color(0.921569, 0.862745, 0.054902, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lctva"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ujdmx"]
+bg_color = Color(0.921569, 0.862745, 0.054902, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_011d0"]
+bg_color = Color(0.2, 0.533333, 1, 1)
+
+[sub_resource type="Animation" id="Animation_frb6j"]
+resource_name = "GameOverAnimation"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GameOverGroup/FlyByText:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-546, 163), Vector2(900, 163)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GameOverGroup/FlyByText3:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1, 2.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-380, 461), Vector2(1200, 461)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("GameOverGroup/FlyByText2:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1, 2.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(843, 356), Vector2(-300, 356)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("GameOverGroup/FlyByText4:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1, 1.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(836, 104), Vector2(-300, 104)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("GameOverGroup/GameOverText:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(1, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_m6u36"]
+_data = {
+"GameOverAnimation": SubResource("Animation_frb6j")
+}
+
+[node name="Hud" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_d0cnq")
+
+[node name="p0Health" type="ProgressBar" parent="."]
+offset_left = 25.0
+offset_top = 25.0
+offset_right = 375.0
+offset_bottom = 50.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_w6uk2")
+max_value = 5.0
+step = 1.0
+value = 3.0
+fill_mode = 1
+show_percentage = false
+
+[node name="p0Charge" type="ProgressBar" parent="p0Health"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 25.0
+offset_right = 345.0
+offset_bottom = 37.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_lctva")
+max_value = 5.0
+step = 1.0
+value = 1.0
+fill_mode = 1
+show_percentage = false
+
+[node name="p1Health" type="ProgressBar" parent="."]
+layout_direction = 3
+offset_left = 25.0
+offset_top = 25.0
+offset_right = 375.0
+offset_bottom = 50.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_ujdmx")
+max_value = 5.0
+step = 1.0
+value = 2.0
+fill_mode = 1
+show_percentage = false
+
+[node name="p1Charge" type="ProgressBar" parent="p1Health"]
+layout_direction = 3
+layout_mode = 0
+offset_left = 25.0
+offset_top = 25.0
+offset_right = 345.0
+offset_bottom = 37.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_011d0")
+max_value = 5.0
+step = 1.0
+value = 3.0
+fill_mode = 1
+show_percentage = false
+
+[node name="MoonPhase" type="Sprite2D" parent="."]
+position = Vector2(400, 90)
+texture = ExtResource("1_7dq4i")
+hframes = 2
+vframes = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_m6u36")
+}
+
+[node name="GameOverGroup" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="FlyByText" type="RichTextLabel" parent="GameOverGroup"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 880.0
+offset_top = 143.0
+offset_right = 1230.0
+offset_bottom = 245.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/italics_font_size = 72
+bbcode_enabled = true
+text = "[i]DECISION[/i]"
+
+[node name="FlyByText2" type="RichTextLabel" parent="GameOverGroup"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = 336.0
+offset_right = 29.995
+offset_bottom = 438.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/italics_font_size = 48
+bbcode_enabled = true
+text = "[i]DECISION[/i]"
+
+[node name="FlyByText3" type="RichTextLabel" parent="GameOverGroup"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 1180.0
+offset_top = 441.0
+offset_right = 1530.0
+offset_bottom = 543.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/italics_font_size = 72
+bbcode_enabled = true
+text = "[i]DECISION[/i]"
+
+[node name="FlyByText4" type="RichTextLabel" parent="GameOverGroup"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = 84.0
+offset_right = 30.002
+offset_bottom = 186.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/italics_font_size = 28
+bbcode_enabled = true
+text = "[i]DECISION[/i]"
+
+[node name="GameOverText" type="RichTextLabel" parent="GameOverGroup"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 127.0
+offset_top = 229.0
+offset_right = 633.0
+offset_bottom = 331.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 15
+theme_override_font_sizes/normal_font_size = 72
+bbcode_enabled = true
+text = "[center]%s
+IS WORTHY[/center]"
+fit_content = true
+scroll_active = false
