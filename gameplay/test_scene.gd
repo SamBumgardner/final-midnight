@@ -30,8 +30,9 @@ func _ready():
 func _process(delta):
 	if Input.is_action_just_pressed("ui_accept") and game_is_over:
 		get_tree().change_scene_to_file("res://gameplay/test_scene.tscn")
-		
-	if Input.is_action_just_pressed("ui_accept") and !game_is_over:
+
+func _on_timer_timeout():
+	if !game_is_over:
 		emit_signal("resolve_round_actions", [0, 1], [$Player1, $Player2], [$Player1/ControlPalette.current_action, $Player2/ControlPalette.current_action], TURN_MOON_PHASES[turn_number])
 		
 		game_is_over = _check_game_over()
@@ -40,6 +41,7 @@ func _process(delta):
 			emit_signal("new_round", turn_number, TURN_MOON_PHASES[turn_number])
 		else:
 			emit_signal("game_over")
+	
 
 func _check_game_over():
 	return $Player1.health <= 0 or $Player2.health <=0 or turn_number == TURN_NUMBER_FINAL
