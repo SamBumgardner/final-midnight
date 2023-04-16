@@ -73,7 +73,19 @@ tracks/4/path = NodePath("GameOverGroup/GameOverText:visible")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(1, 4),
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("GameOverGroup/RestartReminder:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 4.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, true]
@@ -164,9 +176,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 880.0
+offset_left = -566.0
 offset_top = 143.0
-offset_right = 1230.0
+offset_right = -216.0
 offset_bottom = 245.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -181,9 +193,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -320.0
+offset_left = 823.0
 offset_top = 336.0
-offset_right = 29.995
+offset_right = 1172.99
 offset_bottom = 438.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -198,9 +210,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 1180.0
+offset_left = -400.0
 offset_top = 441.0
-offset_right = 1530.0
+offset_right = -50.0
 offset_bottom = 543.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -215,9 +227,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -320.0
+offset_left = 816.0
 offset_top = 84.0
-offset_right = 30.002
+offset_right = 1166.0
 offset_bottom = 186.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -245,5 +257,27 @@ theme_override_font_sizes/normal_font_size = 72
 bbcode_enabled = true
 text = "[center]%s
 IS WORTHY[/center]"
+fit_content = true
+scroll_active = false
+
+[node name="RestartReminder" type="RichTextLabel" parent="GameOverGroup"]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 130.0
+offset_top = 510.0
+offset_right = 636.0
+offset_bottom = 612.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 15
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "[center]press [space] to play again[/center]"
 fit_content = true
 scroll_active = false
