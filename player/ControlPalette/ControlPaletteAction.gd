@@ -75,7 +75,9 @@ func _on_actions_disabled(actions_disabled):
 
 func _disable():
 	tween_enable.stop()
+#	tween_activate.stop()
 	tween_disable.play()
+#	tween_deactivate.play()
 
 func _enable():
 	tween_disable.stop()

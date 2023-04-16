@@ -2,20 +2,16 @@ extends Node2D
 
 class_name ControlPalette
 
+
 signal action_activated #Action to activate
 signal actions_disabled #list of disabled Action
 
-#@onready var charge_sprite = $Charge as ControlPaletteAction
-#@onready var attack_sprite = $Attack as ControlPaletteAction
-#@onready var daze_sprite = $Daze as ControlPaletteAction
-#@onready var block_sprite = $Block as ControlPaletteAction
-#@onready var action_sprites = [charge_sprite, attack_sprite, daze_sprite, block_sprite]
-
+@export var player_identifier = "p0"
 @export var input_mapping = {
-		"ui_up": GlobalConstants.Actions.CHARGE, 
-		"ui_right": GlobalConstants.Actions.ATTACK, 
-		"ui_down": GlobalConstants.Actions.DAZE,
-		"ui_left": GlobalConstants.Actions.BLOCK
+		"%s_up": GlobalConstants.Actions.CHARGE, 
+		"%s_forward": GlobalConstants.Actions.ATTACK, 
+		"%s_down": GlobalConstants.Actions.DAZE,
+		"%s_back": GlobalConstants.Actions.BLOCK
 	}
 
 var previous_action = GlobalConstants.Actions.NONE
@@ -36,6 +32,8 @@ func _on_new_round():
 	
 	disabled_actions = determine_disabled_actions()
 	emit_signal("actions_disabled", disabled_actions)
+	
+	pressed_actions_stack.clear()
 
 func determine_disabled_actions():
 	var actions_to_disable = []
@@ -47,7 +45,7 @@ func determine_disabled_actions():
 func _get_all_valid_inputs(input_retrieval_method):
 	var valid_inputs = []
 	for input in input_mapping:
-		if input_mapping[input] not in disabled_actions and input_retrieval_method.call(input):
+		if input_mapping[input] not in disabled_actions and input_retrieval_method.call(input % player_identifier):
 			valid_inputs.append(input_mapping[input])
 	return valid_inputs
 
@@ -57,12 +55,16 @@ func _update_pressed_actions_stack():
 	
 	var just_released_actions = _get_all_valid_inputs(Input.is_action_just_released)
 	for action in just_released_actions:
-		pressed_actions_stack.remove_at(pressed_actions_stack.find(action))
-	
+		var released_action_index = pressed_actions_stack.find(action)
+		if released_action_index >= 0:
+			pressed_actions_stack.remove_at(released_action_index)
+
 	return pressed_actions_stack
 
 func _action_selected(action):
-	if action != GlobalConstants.Actions.NONE and action != current_action:
+	if action != GlobalConstants.Actions.NONE \
+			and action != current_action \
+			and action not in disabled_actions:
 		current_action = action
 		emit_signal("action_activated", current_action)
 
