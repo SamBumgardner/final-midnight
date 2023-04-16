@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://dkh85xxdd1ipo"]
+
+[ext_resource type="Script" path="res://player/ControlPalette/ControlPalette.gd" id="1_fsgky"]
+[ext_resource type="PackedScene" uid="uid://dkisc5cypylba" path="res://player/ControlPalette/ControlPaletteAction.tscn" id="2_iasfq"]
+
+[node name="ControlPalette" type="Node2D"]
+script = ExtResource("1_fsgky")
+
+[node name="Charge" parent="." instance=ExtResource("2_iasfq")]
+offset = Vector2(0, -64)
+
+[node name="Attack" parent="." instance=ExtResource("2_iasfq")]
+offset = Vector2(64, 0)
+frame = 1
+action_type = 1
+
+[node name="Daze" parent="." instance=ExtResource("2_iasfq")]
+offset = Vector2(0, 64)
+frame = 2
+action_type = 2
+
+[node name="Block" parent="." instance=ExtResource("2_iasfq")]
+offset = Vector2(-64, 0)
+frame = 3
+action_type = 3

@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dkisc5cypylba"]
+
+[ext_resource type="Texture2D" uid="uid://3q3ymc0g7q0b" path="res://assets/action_icons.png" id="1_djj11"]
+[ext_resource type="Script" path="res://player/ControlPalette/ControlPaletteAction.gd" id="2_h1faa"]
+
+[node name="ControlPaletteAction" type="Sprite2D"]
+texture = ExtResource("1_djj11")
+hframes = 4
+vframes = 2
+script = ExtResource("2_h1faa")
