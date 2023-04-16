@@ -12,11 +12,14 @@ offset = Vector2(0, -64)
 [node name="Attack" parent="." instance=ExtResource("2_iasfq")]
 offset = Vector2(64, 0)
 frame = 1
+action_type = 1
 
 [node name="Daze" parent="." instance=ExtResource("2_iasfq")]
 offset = Vector2(0, 64)
 frame = 2
+action_type = 2
 
 [node name="Block" parent="." instance=ExtResource("2_iasfq")]
 offset = Vector2(-64, 0)
 frame = 3
+action_type = 3

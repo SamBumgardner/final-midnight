@@ -4,6 +4,8 @@ class_name ControlPaletteAction
 
 const TWEEN_DURATION_MAX = 1
 
+@export var action_type = GlobalConstants.Actions.CHARGE
+
 var tween_all = []
 var tween_deactivate
 var tween_activate
@@ -12,6 +14,7 @@ var tween_enable
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	frame = action_type
 	tween_all.append(_init_tween_deactivate())
 	tween_all.append(_init_tween_activate())
 	tween_all.append(_init_tween_disable())
@@ -49,22 +52,31 @@ func _init_tween_activate():
 	tween_activate.stop()
 	tween_activate.connect("finished", tween_activate.stop)
 	return tween_activate
-	
-func deactivate():
+
+func _on_action_activated(activated_action):
+	if action_type == activated_action:
+		_activate()
+	else:
+		_deactivate()
+
+func _deactivate():
 	tween_activate.stop()
 	tween_deactivate.play()
 
-func activate():
+func _activate():
 	tween_deactivate.stop()
 	tween_activate.play()
 
-func disable():
+func _on_actions_disabled(actions_disabled):
+	if action_type in actions_disabled:
+		_disable()
+	else:
+		_enable()
+
+func _disable():
 	tween_enable.stop()
 	tween_disable.play()
 
-func enable():
+func _enable():
 	tween_disable.stop()
 	tween_enable.play()
-
-func _process(delta):
-	pass
