@@ -19,13 +19,15 @@ var current_action = GlobalConstants.Actions.NONE
 var pressed_actions_stack = []
 var disabled_actions = []
 
+var game_over = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	for child in get_children():
 		connect("action_activated", child._on_action_activated)
 		connect("actions_disabled", child._on_actions_disabled)
 
-func _on_new_round():
+func _on_new_round(_turn_number, _turn_moon_phase):
 	previous_action = current_action
 	current_action = GlobalConstants.Actions.NONE
 	emit_signal("action_activated", current_action)
@@ -34,6 +36,9 @@ func _on_new_round():
 	emit_signal("actions_disabled", disabled_actions)
 	
 	pressed_actions_stack.clear()
+
+func _on_game_over():
+	game_over = true
 
 func determine_disabled_actions():
 	var actions_to_disable = []
@@ -69,6 +74,7 @@ func _action_selected(action):
 		emit_signal("action_activated", current_action)
 
 func _process(delta):
-	_update_pressed_actions_stack()
-	if !pressed_actions_stack.is_empty():
-		_action_selected(pressed_actions_stack.back())
+	if (!game_over):
+		_update_pressed_actions_stack()
+		if !pressed_actions_stack.is_empty():
+			_action_selected(pressed_actions_stack.back())

@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://c882gi2vo050k"]
+[gd_scene load_steps=4 format=3 uid="uid://c882gi2vo050k"]
 
 [ext_resource type="Script" path="res://gameplay/test_scene.gd" id="1_q6wjb"]
 [ext_resource type="PackedScene" uid="uid://bomodjcon6ive" path="res://player/Player.tscn" id="2_qrmxx"]
+[ext_resource type="PackedScene" uid="uid://by506lrsgi7qw" path="res://hud/Hud.tscn" id="3_wo64q"]
 
 [node name="test_scene" type="Node2D"]
 script = ExtResource("1_q6wjb")
@@ -13,3 +14,7 @@ position = Vector2(200, 275)
 position = Vector2(600, 275)
 scale = Vector2(-1, 1)
 player_number = 1
+
+[node name="Hud" parent="." node_paths=PackedStringArray("player0", "player1") instance=ExtResource("3_wo64q")]
+player0 = NodePath("../Player1")
+player1 = NodePath("../Player2")
