@@ -39,11 +39,12 @@ func _format_game_over_text():
 	elif p0_defeat and p1_defeat:
 		worthy_name = "NOBODY"
 	else:
+		$MoonPhase.frame = 0
 		if player0.health > player1.health:
 			worthy_name = "P1"
 		elif player0.health < player1.health:
 			worthy_name = "P2"
 		else:
 			worthy_name = "NOBODY"
-			
+	
 	gameOverText.text = GAME_OVER_TEXT_TEMPLATE % worthy_name
