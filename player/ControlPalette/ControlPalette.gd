@@ -16,8 +16,8 @@ signal actions_disabled #list of disabled Action
 
 var previous_action = GlobalConstants.Actions.NONE
 var current_action = GlobalConstants.Actions.NONE
-var pressed_actions_stack = []
-var disabled_actions = []
+@export var pressed_actions_stack = []
+@export var disabled_actions = []
 
 var game_over = false
 
@@ -28,14 +28,19 @@ func _ready():
 		connect("actions_disabled", child._on_actions_disabled)
 
 func _on_new_round(_turn_number, _turn_moon_phase):
-	previous_action = current_action
-	current_action = GlobalConstants.Actions.NONE
-	emit_signal("action_activated", current_action)
-	
-	disabled_actions = determine_disabled_actions()
-	emit_signal("actions_disabled", disabled_actions)
-	
-	pressed_actions_stack.clear()
+	if is_multiplayer_authority():
+		previous_action = current_action
+		current_action = GlobalConstants.Actions.NONE
+		emit_signal("action_activated", current_action)
+		
+		disabled_actions = determine_disabled_actions()
+		emit_signal("actions_disabled", disabled_actions)
+		
+		pressed_actions_stack.clear()
+	else:
+		previous_action = current_action
+		current_action = GlobalConstants.Actions.NONE
+		emit_signal("action_activated", current_action)
 
 func _on_game_over():
 	game_over = true
@@ -75,6 +80,9 @@ func _action_selected(action):
 
 func _process(delta):
 	if (!game_over):
-		_update_pressed_actions_stack()
+		if is_multiplayer_authority():
+			_update_pressed_actions_stack()
 		if !pressed_actions_stack.is_empty():
 			_action_selected(pressed_actions_stack.back())
+		if !is_multiplayer_authority():
+			emit_signal("actions_disabled", disabled_actions)
