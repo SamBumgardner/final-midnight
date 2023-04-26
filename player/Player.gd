@@ -9,8 +9,8 @@ signal charge_changed
 @export var min_charge = 1
 @export var max_charge = 5
 
-var health = max_health
-var charge = min_charge
+@export var health = max_health
+@export var charge = min_charge
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -72,3 +72,6 @@ func _lose_charge():
 func _gain_charge(charge_amount):
 	charge = min(charge + charge_amount, max_charge)
 	emit_signal("charge_changed", charge, player_number)
+
+func get_current_action():
+	return $ControlPalette.current_action

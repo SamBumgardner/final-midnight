@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://dp4cgq8ie83lj"]
+
+[ext_resource type="Script" path="res://networking/gameplay/networked_gameplay.gd" id="1_7plf3"]
+[ext_resource type="PackedScene" uid="uid://bomodjcon6ive" path="res://player/Player.tscn" id="2_g1jfh"]
+[ext_resource type="PackedScene" uid="uid://by506lrsgi7qw" path="res://hud/Hud.tscn" id="3_5ht8p"]
+
+[node name="networked_gameplay" type="Node2D"]
+script = ExtResource("1_7plf3")
+
+[node name="Player1" parent="." instance=ExtResource("2_g1jfh")]
+position = Vector2(200, 275)
+
+[node name="Player2" parent="." instance=ExtResource("2_g1jfh")]
+position = Vector2(600, 275)
+scale = Vector2(-1, 1)
+player_number = 1
+
+[node name="Hud" parent="." node_paths=PackedStringArray("player0", "player1") instance=ExtResource("3_5ht8p")]
+player0 = NodePath("../Player1")
+player1 = NodePath("../Player2")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
